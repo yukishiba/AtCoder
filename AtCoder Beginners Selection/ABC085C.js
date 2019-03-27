@@ -8,43 +8,31 @@
 'use strict'
 function main(input) {
   const type = [10000, 5000, 1000]
-  let result = []
+  const wrong = '-1 -1 -1'
+  let result = [0, 0, 0]
 
-  function calc (money, num, index, count) {
-    let maxCount = Math.min(Math.floor(money / type[index]), num)
-    let remainMoney
-    let remainNum
-    let payloadCount
-    if (maxCount > 0) {
-      for (let i = maxCount; i >= 0; i--) {
-        console.log(index, i)
-        remainMoney = money - (type[index] * i)
-        remainNum = num - i
-        payloadCount = [...count]
-        payloadCount[index] = i
-        console.log('remain', payloadCount, remainMoney, remainNum, index)
-        if (remainNum === 0) {
-          return {money: remainMoney, num: remainNum, count: payloadCount}
-        }
-        let result = calc(remainMoney, remainNum, index + 1, payloadCount)
-        console.log('result', result.count, result.money, result.num, index + 1)
-        if (result.money === 0 && result.num === 0) {
-          return result
-        }
-      }
-    }
-    return {money: -1, num: -1, count: [-1, -1, -1]}
+  const calc = result => {
+    let arr = type.map((val, index) => val * result[index])
+    return arr[0] + arr[1] + arr[2]
   }
+  const remainMoney = result => amount - calc(result)
+  const remainNum = result => num - (result[0] + result[1] + result[2])
   
   input = input.split(' ')
-  let num = input.shift()
-  let amount = input.shift()
-  
-  console.log(calc(amount, num, 0, [0, 0, 0]))
-  // console.log((num===0 && total===0) ? result.join(' ') : '-1 -1 -1')
+  const num = Number(input.shift())
+  const amount = Number(input.shift())
+
+  for (let i = 0; i < type.length; i++) {
+    result[i] = Math.min(Math.floor(remainMoney(result) / type[i]), remainNum(result))
+  }
+
+  // remainNum が 0 以上の場合に、追加で処理を走らせる。
+  // しかし、その方法はノーアイデアである。
+
+  console.log(amount === calc(result) ? result.join(' ') : wrong)
 }
 
 main('9 45000') // 4 0 5
 main('20 196000') // -1 -1 -1
 main('1000 1234000') // 14 27 959
-// main('2000 20000000') // 2000 0 0
+main('2000 20000000') // 2000 0 0

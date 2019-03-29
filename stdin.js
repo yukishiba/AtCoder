@@ -1,5 +1,9 @@
 'use strict'
 function main(input) {
+  input = input.split(' ')
+  const num = Number(input.shift())
+  const amount = Number(input.shift())
+
   const type = [10000, 5000, 1000]
   const wrong = '-1 -1 -1'
   let result = [0, 0, 0]
@@ -11,48 +15,29 @@ function main(input) {
   const remainMoney = result => amount - calc(result)
   const remainNum = result => num - (result[0] + result[1] + result[2])
 
+  const comparison = (a, b, max) => Math.min(Math.floor(a / b), max)
   const isCorrect = result => {
-    return (remainMoney(result) === 0 && remainNum(result) === 0) 
+    return (remainMoney(result) === 0 && remainNum(result) === 0)
   }
-  
-  input = input.split(' ')
-  const num = Number(input.shift())
-  const amount = Number(input.shift())
 
+  // 大きい紙幣から割り当てていく。これだと残額ゼロになっても枚数が余る。
   for (let i = 0; i < type.length; i++) {
     result[i] = Math.min(Math.floor(remainMoney(result) / type[i]), remainNum(result))
   }
 
-  while (remainNum(result) > 0) {
-    let dist = [
-      0,
-      Math.round(remainNum(result) / 12 * 2),
-      Math.round(remainNum(result) / 12 * 10)
-    ]
-    let decrease = [0, 0, 0]
-    let shortfall = dist[1] * type[1] + dist[2] * type[2] - remainMoney(result)
-
-    for (let i = 1; i >= 0; i--) {
-      if (shortfall > 0) {
-        decrease[i] = (shortfall / type[i]) > (result[i] + dist[i]) ? result[i] + dist[i] : Math.floor(shortfall / type[i])
-        shortfall -= decrease[i] * type[i]
-      }
-    }
-
-    if (shortfall > 0) {
-      if (shortfall === type[2]) {
-        decrease[2]++;
-      } else if (shortfall < type[1]) {
-        decrease[1]++; dist[2]++
-      } else if (shortfall < type[0]) {
-        decrease[0]++; dist[1]++
-      }
-    }
-
-    for (let i = 2; i >= 0; i--) {
-      result[i] = result[i] + dist[i] - decrease[i]
-      if (result[i] < 0) result[i] = 0
-    }
+  if (remainNum(result) > 0) {
+    // 枚数が余る場合、小さい紙幣に割り当てを変更する。割合の大きい順に移動する。
+    let manToSen = comparison(remainNum(result), 9, result[0])
+    result[0] -= manToSen
+    result[2] += manToSen * 10
+  
+    let gosenToSen = comparison(remainNum(result), 4, result[1])
+    result[1] -= gosenToSen
+    result[2] += gosenToSen * 5
+  
+    let manToGosen =comparison(remainNum(result), 1, result[0])
+    result[0] -= manToGosen
+    result[1] += manToGosen * 2
   }
 
   console.log(isCorrect(result) ? result.join(' ') : wrong)

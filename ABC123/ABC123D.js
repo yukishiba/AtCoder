@@ -1,24 +1,29 @@
 // D - Cake 123
 
+// 解法#1 通るサンプルが多くなったけどやっぱりTLE
+
 'use strict'
 function main(input) {
   input = input.trim().split('\n')
   const counts = input.shift().split(' ')
   input = input.map(val => val.split(' '))
 
-  const sum = (a, b, c) => Number(input[0][a]) + Number(input[1][b]) + Number(input[2][c])
+  let sums = []
   let result = []
 
   for (let i = 0; i < counts[0]; i++) {
     for (let j = 0; j < counts[1]; j++) {
-      for (let k = 0; k < counts[2]; k++) {
-        result.push(sum(i, j, k))
-      }
+      sums.push(Number(input[0][i]) + Number(input[1][j]))
+    }
+  }
+  sums = sums.sort((a, b) => b - a).slice(0, counts[3])
+
+  for (let i = 0; i < sums.length; i++) {
+    for (let j = 0; j < counts[2]; j++) {
+      result.push(Number(sums[i]) + Number(input[2][j]))
     }
   }
   result = result.sort((a, b) => b - a).slice(0, counts[3])
-
-  // これだと総当たりなので、ふつうに無理。
 
   console.log(result.join('\n'))
 }

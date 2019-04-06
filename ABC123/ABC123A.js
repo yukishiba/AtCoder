@@ -3,18 +3,7 @@
 'use strict'
 function main(input) {
   input = input.trim().split('\n')
-  const distance = input.pop()
-  input = input.map((val, index) => {
-    let result = true
-    for (let i = index; i < input.length; i++) {
-      if (result) {
-        result = input[i] - val <= distance
-      }
-    }
-    return result
-  })
-
-  console.log(input.filter(result => result === false).length === 0 ? 'Yay!' : ':(')
+  console.log(input[5] >= input[4] - input[0] ? 'Yay!' : ':(')
 }
 
 main(`1
@@ -23,7 +12,6 @@ main(`1
 8
 9
 15`) //Yay!
-
 
 main(`15
 18

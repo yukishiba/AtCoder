@@ -1,6 +1,6 @@
 // D - Cake 123
 
-// 解法#1 通るサンプルが多くなったけどやっぱりTLE
+// 解法#2
 
 'use strict'
 function main(input) {
@@ -8,19 +8,19 @@ function main(input) {
   const counts = input.shift().split(' ')
   input = input.map(val => val.split(' '))
 
-  let sums = []
   let result = []
+
+  input.map(items => items.sort((a, b) => Number(b) - Number(a)))
 
   for (let i = 0; i < counts[0]; i++) {
     for (let j = 0; j < counts[1]; j++) {
-      sums.push(Number(input[0][i]) + Number(input[1][j]))
-    }
-  }
-  sums = sums.sort((a, b) => b - a).slice(0, counts[3])
-
-  for (let i = 0; i < sums.length; i++) {
-    for (let j = 0; j < counts[2]; j++) {
-      result.push(Number(sums[i]) + Number(input[2][j]))
+      for (let k = 0; k < counts[2]; k++) {
+        if ((i + 1) * (j + 1) * (k + 1) <= 3000) {
+          result.push(Number(input[0][i]) + Number(input[1][j]) + Number(input[2][k]))
+        } else {
+          break
+        }
+      }
     }
   }
   result = result.sort((a, b) => b - a).slice(0, counts[3])

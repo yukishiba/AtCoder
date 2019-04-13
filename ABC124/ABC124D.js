@@ -1,7 +1,5 @@
 // D - Handstand
 
-// WA, TLE
-
 'use strict'
 function main(input) {
   input = input.trim().split('\n')

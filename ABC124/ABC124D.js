@@ -7,44 +7,40 @@ function main(input) {
   input = input.trim().split('\n')
   const k = input[0].split(' ')[1]
   let s = input[1].split('')
-  let temp = []
+  let nums = []
   let current = s.shift()
+  if (current === '0') nums.push(0)
  
   s.forEach(val => {
     if (val === current[0]) {
       current += val 
     } else {
-      temp.push(current)
+      nums.push(current.length)
       current = val
     }
   })
-  temp.push(current)
-  if (temp[0][0] === '0') temp.unshift('')
-  if (temp[temp.length-1][0] === '0') temp.push('')
- 
-  for (let i = 0; i < k; i++) {
-    let max = 0
-    let maxIndex = ''
-    for (let j = 0; j < temp.length - 2; j+=2) {
-      let current = temp[j] + temp[j+1] + temp[j+2]
-      if (max <= current.length) {
-        max = current.length
-        maxIndex = j
-      }
+  nums.push(current.length)
+  if(nums.length % 2 === 0) nums.push(0)
+
+  let add = 2 * k + 1
+  let ans = 0
+
+  let left = 0
+  let right = 0
+  let tmp = 0
+
+  for (let i = 0; i < nums.length; i += 2) {
+    while (i > left) {
+      tmp -= nums[left]
+      left++
     }
-    if (maxIndex !== '') {
-      if (temp.length > maxIndex+1) {
-        let rep = temp[maxIndex+1].replace(/0/g, '1')
-        temp[maxIndex] += rep
-        temp.splice(maxIndex+1, 1)
-      }
-      if (temp.length > maxIndex+1) {
-        temp[maxIndex] += temp[maxIndex+1]
-        temp.splice(maxIndex+1, 1)
-      }
+    while (Math.min(i + add, nums.length) > right) {
+      tmp += nums[right]
+      right++
     }
+    ans = Math.max(tmp, ans)
   }
-  console.log(temp.filter(val => val[0] === '1').sort((a, b) => b.length - a.length)[0].length)
+  console.log(ans)
 }
 
 main(`5 1

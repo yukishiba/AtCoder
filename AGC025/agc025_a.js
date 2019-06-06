@@ -1,17 +1,17 @@
 //  A - Digits Sum 
+// 解説を見たあと
 
 'use strict'
 function main(input) {
-  input = Number(input.trim())
-  const sum = n => n.split('').reduce((p, c) => Number(p) + Number(c), 0)
-  let ans = 0
-  for (let i = 1; i < input; i++) {
-    let j = input - i
-    let c = sum(String(i)+String(j))
-    if (!ans || ans > c) ans = c
+  input = input.trim()
+  if (input.match(/^10+$/)) {
+    console.log(10)
+  } else {
+    console.log(input.split('').reduce((r, c) => Number(r) + Number(c), 0))
   }
-  console.log(ans)
 }
 
 main(`15`) // 6
-main(`100000`) // 10
+main(`10`) // 10
+main(`50`) // 5
+main(`1001000`) // 2

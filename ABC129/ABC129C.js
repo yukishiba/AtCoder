@@ -1,27 +1,25 @@
 // C - Typical Stairs
-// WA
 'use strict'
 function main(input) {
   input = input.trim().split('\n')
   const NM = input.shift().split(' ').map(v => Number(v))
-  input = [0, ...input.map(v => Number(v)), NM[0]]
-  console.log(input)
-
-  const calc = d => {
-    return d < 2 ? 1 : (d - 1) * (d - 2) / 2 + 2
-  }
-  let ans = 1
+  input = input.map(v => Number(v))
   
-  for (let m = 1; m <= NM[1] + 1; m++) {
-    let diff = input[m] - input[m - 1] - 1
-    console.log(m, diff, calc(diff))
-    if (diff === 0 && m!==1) {
-      console.log(0)
-      return
-    }
-    ans = ans * (calc(diff))
+  let ans = new Array(NM[0]+1).fill(1)
+  let broken = -1
+  let NG = false
+
+  input.forEach(n => {
+    if (broken + 1 === n) { NG = true }
+    ans[n] = 0
+    broken = n
+  })
+  if (NG) { console.log(0); return }
+  
+  for (let n = 2; n <= NM[0]; n++) {
+    ans[n] = ans[n] * (ans[n-2] + ans[n-1]) % 1000000007
   }
-  console.log(ans % 1000000007)
+  console.log(ans[NM[0]])
 }
 
 main(`6 1

@@ -1,3 +1,4 @@
+// A - Security
 'use strict'
 function main(input) {
   input = input.trim()
@@ -6,4 +7,7 @@ function main(input) {
   }
   console.log('Good')
 }
-main(require('fs').readFileSync('/dev/stdin', 'utf8'));
+
+main(`3776`) // 3.000000 0
+
+main(`2121`) // 2.000000 1

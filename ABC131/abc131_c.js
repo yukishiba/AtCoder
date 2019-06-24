@@ -1,5 +1,6 @@
 // C - Anti-Division
 // これ18桁くると誤差出る。JSの限界。
+// bigInt 対応はせず、pythonで解くことにした → abc131_c.py
 
 'use strict'
 function main(i) {
@@ -7,16 +8,16 @@ function main(i) {
     const gcd = (x, y) => y === 0 ? x : gcd(y, x%y);
     return (a * b) / gcd(a, b)
   }
-  i = i.trim().split(' ').map(v => Number(v))
-  let full = i[1]
-  full -= Math.floor(i[1]/i[2])
-  full -= Math.floor(i[1]/i[3])
-  full += Math.floor(i[1]/lcm(i[2],i[3]))
-  let not = i[0]
-  not -= Math.ceil(i[0]/i[2])
-  not -= Math.ceil(i[0]/i[3])
-  not += Math.ceil(i[0]/lcm(i[2],i[3]))
-  console.log(full - not)
+  const fl = n => Math.floor(n)
+
+  i = i.trim().split(' ')
+  const A = i[0] - 1
+  const B = i[1] - 0
+  const C = i[2] - 0
+  const D = i[3] - 0
+  const CD = lcm(C,D)  
+  const ans = (B-A) - (fl(B/C) - fl(A/C)) - (fl(B/D) - fl(A/D)) + (fl(B/CD) - fl(A/CD))
+  console.log(ans)
 }
 
 main(`4 9 2 3`) // 2

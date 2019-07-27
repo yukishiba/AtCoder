@@ -1,3 +1,5 @@
+// C - Base -2 Number
+
 'use strict'
 function main(input) {
   input = Number(input.trim())
@@ -18,4 +20,8 @@ function main(input) {
   console.log(ans || '0')
 }
 
-main(require('fs').readFileSync('/dev/stdin', 'utf8'));
+main(`-9`) // 1011
+
+main(`123456789`) // 11000101011001101110100010101
+
+main(`0`) // 0

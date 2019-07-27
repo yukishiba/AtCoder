@@ -1,3 +1,5 @@
+// C - Modulo Summation 
+
 'use strict'
 function main(input) {
   input = input.trim().split('\n')
@@ -9,4 +11,12 @@ function main(input) {
   }
   console.log(ans)
 }
-main(require('fs').readFileSync('/dev/stdin', 'utf8'));
+
+main(`3
+3 4 6`) // 10
+
+main(`5
+7 46 11 20 11`) // 90
+
+main(`7
+994 518 941 851 647 2 581`) // 4527

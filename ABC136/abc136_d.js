@@ -1,29 +1,38 @@
 // D - Gathering Children
-// 参考 https://twitter.com/tempura_cpp/status/1158014535816679424/photo/1
-// だが TLE がでる。。
+// 参考 https://atcoder.jp/contests/abc136/submissions/6697694
 'use strict'
 function main(inp) {
   inp = inp.trim()
-  const L = inp.length
-  let next = new Array(L)
-  let ans = new Array(L).fill(0)
+  let L = []
+  let R = []
+  let ans = []
+  let temp = 0
 
-  // L/R を具体的な移動先のindexにする。
-  for (let i = 0; i < L; i++) {
-    next[i] = inp[i] === 'R' ? i + 1 : i - 1
-  }
-  // 100 回程度でいいのか……
-  for (let j = 0; j < 100; j++) {
-    let newNext = new Array(L)
-    // 移動先の移動先に更新する
-    for (let k = 0; k < L; k++) {
-      newNext[k] = next[next[k]]
+  for (let i = 0; i < inp.length; i++) {
+    R[i] = 0
+    if (inp[i] === 'R') {
+      temp++
+    } else if (temp > 0) {
+      R[i] = Math.floor(temp / 2)
+      R[i - 1] = temp - R[i]
+      temp = 0
     }
-    next = [...newNext]
   }
-  // 移動先に選ばれたマスをカウントアップする
-  for (let l = 0; l < L; l++) {
-    ans[next[l]]++
+  temp = 0
+
+  for (let i = inp.length - 1; i >= 0; i--) {
+    L[i] = 0
+    if (inp[i] === 'L') {
+      temp++
+    } else if (temp > 0) {
+      L[i] = Math.floor(temp / 2)
+      L[i + 1] = temp - L[i]
+      temp = 0
+    }
+  }
+
+  for (let i = 0; i < inp.length; i++) {
+    ans[i] = R[i] + L[i]
   }
   console.log(ans.join(' '))
 }

@@ -21,19 +21,19 @@ function main(inp) {
     }
   }
 
-  let queue = [1]
+  let stack = [1]
   const countup = n => {
     if (n in px) ans[n] += px[n]
     if (n in ab) {
       for (let i = 0; i < ab[n].length; i++) {
         let j = ab[n][i]
         ans[j] += ans[n]
-        queue.push(j)
+        stack.push(j)
       }
     }
   }
-  while(queue.length) {
-    countup(queue.shift())
+  while(stack.length) {
+    countup(stack.pop())
   }
   ans.shift()
 

@@ -1,5 +1,5 @@
 'use strict'
-function main(input) {
-  console.log(input)
+function main(inp) {
+  console.log(inp)
 }
 main(require('fs').readFileSync('/dev/stdin', 'utf8'));

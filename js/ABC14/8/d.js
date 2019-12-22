@@ -17,4 +17,6 @@ function main(inp) {
   }
   console.log(count === N ? -1 : count)
 }
-main(require('fs').readFileSync('/dev/stdin', 'utf8'));
+main(`10
+3 1 4 1 5 9 2 6 5 3
+`);

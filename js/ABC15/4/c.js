@@ -12,4 +12,8 @@ function main(inp) {
   return console.log('YES')
 }
 
-main(require('fs').readFileSync('/dev/stdin', 'utf8'));
+main(`5
+2 6 1 4 5
+
+
+`)
